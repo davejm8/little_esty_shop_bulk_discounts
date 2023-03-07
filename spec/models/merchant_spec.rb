@@ -160,9 +160,5 @@ describe Merchant do
     it "best_day" do
       expect(@merchant1.best_day).to eq(@invoice_8.created_at.to_date)
     end
-
-    it "discounted_revenue" do
-      expect(@merchant1.discounted_revenue(@invoice_1)).to eq(102.0)
-    end
   end
 end

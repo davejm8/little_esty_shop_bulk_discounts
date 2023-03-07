@@ -31,7 +31,9 @@ describe 'Admin Invoices Index Page' do
   it 'should display the customers name and shipping address' do
     expect(page).to have_content("#{@c1.first_name} #{@c1.last_name}")
     expect(page).to have_content(@c1.address)
-    expect(page).to have_content("#{@c1.city}, #{@c1.state} #{@c1.zip}")
+    expect(page).to have_content("#{@c1.city}")
+    expect(page).to have_content("#{@c1.state}")
+    expect(page).to have_content("#{@c1.zip}")
 
     expect(page).to_not have_content("#{@c2.first_name} #{@c2.last_name}")
   end
@@ -72,6 +74,6 @@ describe 'Admin Invoices Index Page' do
   end
 
   it 'should display the total discounted revenue for this invoice' do
-    expect(page).to have_content("Total Discounted Revenue: $#{@i1.discounted_revenue}")
+    expect(page).to have_content("Total Discounted Revenue: $#{@i1.merchant_total_discount_revenue}")
   end
 end

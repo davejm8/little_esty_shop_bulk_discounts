@@ -33,13 +33,13 @@ RSpec.describe Invoice, type: :model do
       expect(@invoice_1.total_revenue).to eq(460)
     end
 
-    it 'discounted_items' do
-      expect(Invoice.first.discounted_items(@merchant1.id)).to eq([@ii_1, @ii_2])
+    it "total_discounted_revenue" do
+      expect(@invoice_1.total_discounted).to eq(4500)
     end
 
-    it 'discounted_revenue' do
-      expect(@invoice_1.discounted_revenue).to eq(415)
-      expect(@invoice_2.discounted_revenue).to eq(187.5)
+    it 'merchant_total_discount_revenue' do
+      expect(@invoice_1.merchant_total_discount_revenue).to eq(415)
+      expect(@invoice_2.merchant_total_discount_revenue).to eq(187.5)
     end
   end
 end
