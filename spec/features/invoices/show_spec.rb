@@ -54,7 +54,7 @@ RSpec.describe 'invoices show' do
     @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_7.id)
     @transaction8 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_8.id)
 
-    @bulk_discount1 = @merchant1.bulk_discounts.create!(percentage: 25, threshold: 12)
+    @bulk_discount1 = @merchant1.bulk_discounts.create!(percentage: 25, threshold: 15)
     @bulk_discount2 = @merchant1.bulk_discounts.create!(percentage: 20, threshold: 20)
 
     @bulk_discount3 = @merchant1.bulk_discounts.create!(percentage: 10, threshold: 10)
@@ -74,6 +74,7 @@ RSpec.describe 'invoices show' do
 
     expect(page).to have_content(@customer_1.first_name)
     expect(page).to have_content(@customer_1.last_name)
+
     expect(page).to_not have_content(@customer_2.last_name)
   end
 
@@ -83,8 +84,8 @@ RSpec.describe 'invoices show' do
     expect(page).to have_content(@item_1.name)
     expect(page).to have_content(@ii_1.quantity)
     expect(page).to have_content(@ii_1.unit_price)
-    expect(page).to_not have_content(@ii_4.unit_price)
 
+    expect(page).to_not have_content(@ii_4.unit_price)
   end
 
   it "shows the total revenue for this invoice" do
@@ -112,6 +113,7 @@ RSpec.describe 'invoices show' do
     visit merchant_invoice_path(@merchant1, @invoice_1)
     
     expect(page).to have_content("Total Discounted Revenue for Merchant: $#{@invoice_1.merchant_total_discount_revenue}")
+    expect(page).to_not have_content("No Discounts Applied")
 
     visit merchant_invoice_path(@merchant1, @invoice_2)
 
@@ -128,5 +130,8 @@ RSpec.describe 'invoices show' do
     end
 
     expect(current_path).to eq(merchant_bulk_discount_path(@merchant1, @bulk_discount1))
+    expect(page).to have_content("You can get 25% off if you buy 15 or more items.")
+    
+    expect(page).to_not have_content("You can get 10% off if you buy 10 or more items.")
   end
 end

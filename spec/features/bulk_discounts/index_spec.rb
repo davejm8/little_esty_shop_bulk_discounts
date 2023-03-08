@@ -21,6 +21,7 @@ RSpec.describe 'bulk_discount index' do
       expect(page).to have_content("Threshold: #{@bulk_discount2.threshold}")
       expect(page).to have_content("Percentage: #{@bulk_discount3.percentage}")
       expect(page).to have_content("Threshold: #{@bulk_discount3.threshold}")
+
       expect(page).to_not have_content("Percentage: #{@bulk_discount4.percentage}")
     end
   end
@@ -30,6 +31,11 @@ RSpec.describe 'bulk_discount index' do
 
     expect(page).to have_link("#{@bulk_discount1.percentage}")
     expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
+    expect(page).to_not have_content(@bulk_discount4.percentage)
+
+    visit merchant_bulk_discounts_path(@merchant2)
+
+    expect(page).to have_link("#{@bulk_discount4.percentage}")
   end
 
   it 'has a link to create a new bulk discount' do
@@ -39,10 +45,22 @@ RSpec.describe 'bulk_discount index' do
 
     click_link "Create New Bulk Discount"
     expect(current_path).to eq(new_merchant_bulk_discount_path(@merchant1))
+
+    fill_in "Percentage", with: 25
+    fill_in "Threshold", with: 77
+
+    click_button
+
+    expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
+
+    expect(page).to have_content("Percentage: 25")
+    expect(page).to have_content("Threshold: 77")
   end
 
   it 'has a button to delete each bulk discount' do
     visit merchant_bulk_discounts_path(@merchant1)
+
+    expect(page).to have_content("#{@bulk_discount1.percentage}")
     
     within "#merchants-discounts-index" do
       expect(page).to have_button("Delete Discount")
@@ -52,8 +70,8 @@ RSpec.describe 'bulk_discount index' do
     end
     
     expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
-    expect(page).to_not have_content(@bulk_discount1.percentage)
-    expect(page).to have_content(@bulk_discount2.percentage)
+    expect(page).to_not have_content("#{@bulk_discount1.percentage}")
+    expect(page).to have_content("#{@bulk_discount2.percentage}")
   end
   
   it 'has a section with a header of Upcoming Holidays' do
