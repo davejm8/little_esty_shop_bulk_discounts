@@ -78,11 +78,12 @@ describe 'Admin Invoices Index Page' do
   it 'should display the total discounted revenue for this invoice' do
     expect(page).to have_content("Total Discounted Revenue: $#{@i1.merchant_total_discount_revenue}").once
     expect(page).to have_content("Total Discounted Revenue: $27.6")
+    
 
     expect(page).to_not have_content("Total Discounted Revenue: $522.0")
 
     visit admin_invoice_path(@i2)
     expect(page).to have_content("Total Discounted Revenue: $522.0")
-    expect(page).to have_content("Total Discounted Revenue: $27.6")
+    expect(page).to_not have_content("Total Discounted Revenue: $27.6")
   end
 end
