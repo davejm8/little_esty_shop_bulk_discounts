@@ -21,6 +21,7 @@ RSpec.describe 'bulk_discount show' do
 
     expect(page).to have_content("You can get #{@bulk_discount2.percentage}% off")
     expect(page).to have_content("if you buy #{@bulk_discount2.threshold} or more items.")
+    
     expect(page).to_not have_content("You can get #{@bulk_discount1.percentage}% off")
   end
 
