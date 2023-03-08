@@ -26,8 +26,8 @@
   <div id="discount-<%= ii.id %>">
     <% if @invoice.merchant_total_discount_revenue != 0.0 && ii.find_discount != nil%>
       <p><%= ii.item.name %>: <%= link_to "View Discount Information", merchant_bulk_discount_path(@merchant, ii.find_discount.id)%></p>
-    <% else %>
-      <p>No Discounts Applied</p>
+      <% else %>
+      <p>No Discount for <%= ii.item.name %></p>
     <% end %>
   </div>
     
